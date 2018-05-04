@@ -24,6 +24,11 @@ contract ZombieFactory {
 
     //  an array of structs, public.
     // Other contracts would then be able to read (but not write) to this array. So this is a useful pattern for storing public data in your contract.
-    Zombie[] public Zombies;
+    Zombie[] public zombies;
+
+    // It's convention (but not required) to start function parameter variable names with an underscore (_) in order to differentiate them from global variables.
+    function createZombie(string _name, uint _dna) {
+        zombies.push(Zombie(_name, _dna));
+    }
 
 }
