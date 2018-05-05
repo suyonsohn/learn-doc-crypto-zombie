@@ -27,7 +27,7 @@ contract ZombieFactory {
     Zombie[] public zombies;
 
     // It's convention (but not required) to start function parameter variable names with an underscore (_) in order to differentiate them from global variables.
-    function createZombie(string _name, uint _dna) {
+    function _createZombie(string _name, uint _dna) private {
         zombies.push(Zombie(_name, _dna));
     }
 
