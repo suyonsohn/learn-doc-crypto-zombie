@@ -31,4 +31,22 @@ contract ZombieFactory {
         zombies.push(Zombie(_name, _dna));
     }
 
+    // string greeting = "What's up dog";
+
+    // the function declaration contains the type of the return value (in this case string).
+    // function sayHello() public returns (string) {
+        // return greeting;
+    // }
+
+    // This function doesn't even read from the state of the app — its return value depends only on its function parameters. So in this case we would declare the function as pure.
+    // function _multiply(uint a, uint b) private pure returns (uint) {
+        // return a * b;
+    // }
+
+    // Ethereum has the hash function keccak256 built in, which is a version of SHA3. A hash function basically maps an input string into a random 256-bit hexidecimal number. A slight change in the string will cause a large change in the hash.
+    function _generateRandomDna(string _str) private view returns(uint) {
+        uint rand = uint(keccak256(_str));
+        return rand % dnaModulus;
+    }
+
 }
