@@ -2,6 +2,8 @@
 pragma solidity ^0.4.23;
 
 contract ZombieFactory {
+    // Events are a way for your contract to communicate that something happened on the blockchain to your app front-end, which can be 'listening' for certain events and take action when they happen.
+    event NewZombie(uint zombieId, string name, uint dna);
     // Unsigned Integer
     uint dnaDigits = 16;
     // To make sure our Zombie's DNA is only 16 characters, let's make another uint equal to 10^16. That way we can later use the modulus operator % to shorten an integer to 16 digits.
@@ -28,7 +30,10 @@ contract ZombieFactory {
 
     // It's convention (but not required) to start function parameter variable names with an underscore (_) in order to differentiate them from global variables.
     function _createZombie(string _name, uint _dna) private {
-        zombies.push(Zombie(_name, _dna));
+        // array.push() returns a uint of the new length of the array - and since the first item in an array has index 0, array.push() - 1 will be the index of the zombie we just added. 
+        uint id = zombies.push(Zombie(_name, _dna)) - 1;
+        // fire event
+        NewZombie(id, _name, _dna);
     }
 
     // string greeting = "What's up dog";
