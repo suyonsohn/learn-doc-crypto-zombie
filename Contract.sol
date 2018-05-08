@@ -28,6 +28,28 @@ contract ZombieFactory {
     // Other contracts would then be able to read (but not write) to this array. So this is a useful pattern for storing public data in your contract.
     Zombie[] public zombies;
 
+    // Addresses
+    // The Ethereum blockchain is made up of accounts, which you can think of like bank accounts. An account has a balance of Ether (the currency used on the Ethereum blockchain), and you can send and receive Ether payments to other accounts, just like your bank account can wire transfer money to other bank accounts.
+
+    // Each account has an address, which you can think of like a bank account number. It's a unique identifier that points to that account, and it looks like this:
+    // 0x0cE446255506E92DF41614C46F1d6df9Cc969183
+
+    // An address is owned by a specific user (or a smart contract). So we can use it as a unique ID for ownership of our zombies. When a user creates new zombies by interacting with our app, we'll set ownership of those zombies to the Ethereum address that called the function.
+
+    // Mappings
+    // In Lesson 1 we looked at structs and arrays. Mappings are another way of storing organized data in Solidity.
+
+    // For a financial app, storing a uint that holds the user's account balance:
+    // mapping (address => uint) public accountBalance;
+    // Or could be used to store / lookup usernames based on userId
+    // mapping (uint => string) userIdToName;
+
+    // A mapping is essentially a key-value store for storing and looking up data. In the first example, the key is an address and the value is a uint, and in the second example the key is a uint and the value a string. 
+
+    // we'll store and look up the zombie based on its id
+    mapping (uint => address) public zombieToOwner;
+    mapping (address => uint) ownerZombieCount;
+    
     // It's convention (but not required) to start function parameter variable names with an underscore (_) in order to differentiate them from global variables.
     function _createZombie(string _name, uint _dna) private {
         // array.push() returns a uint of the new length of the array - and since the first item in an array has index 0, array.push() - 1 will be the index of the zombie we just added. 
@@ -58,5 +80,4 @@ contract ZombieFactory {
         uint randDna = _generateRandomDna(_name);
         _createZombie(_name, randDna);
     }
-
 }
