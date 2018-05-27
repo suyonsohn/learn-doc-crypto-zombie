@@ -99,6 +99,25 @@ contract ZombieFactory {
     }
 
     function createRandomZombie(string _name) public {
+        // require makes it so that the function will throw an error and stop executing if some condition is not true:
+ 
+        // function sayHiToVitalik(string _name) public returns (string) {
+            // Compares if _name equals "Vitalik". Throws an error and exits if not true.
+            // (Side note: Solidity doesn't have native string comparison, so we
+            // compare their keccak256 hashes to see if the strings are equal)
+           
+            // require(keccak256(_name) == keccak256("Vitalik"));
+           
+            // If it's true, proceed with the function:
+            
+            // return "Hi!";
+        // }
+
+        // If you call this function with sayHiToVitalik("Vitalik"), it will return "Hi!". If you call it with any other input, it will throw an error and not execute.
+        
+        // Thus require is quite useful for verifying certain conditions that must be true before running a function.
+
+        require(ownerZombieCount[msg.sender] == 0);
         uint randDna = _generateRandomDna(_name);
         _createZombie(_name, randDna);
     }
