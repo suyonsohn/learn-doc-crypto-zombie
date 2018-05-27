@@ -2,6 +2,45 @@ pragma solidity ^0.4.23;
 
 import "./zombiefactory.sol";
 
+// contract LuckyNumber {
+//   mapping(address => uint) numbers;
+
+//   function setNum(uint _num) public {
+    // numbers[msg.sender] = _num;
+//   }
+
+//   function getNum(address _myAddress) public view returns (uint) {
+    // return numbers[_myAddress];
+//   }
+// }
+
+// This would be a simple contract where anyone could store their lucky number, and it will be associated with their Ethereum address. Then anyone else could look up that person's lucky number using their address.
+
+// Now let's say we had an external contract that wanted to read the data in this contract using the getNum function.
+
+// First we'd have to define an interface of the LuckyNumber contract:
+
+// contract NumberInterface {
+//   function getNum(address _myAddress) public view returns (uint);
+// }
+
+// in Solidity you can return more than one value from a function.
+
+contract KittyInterface {
+    function getKitty(uint256 _id) external view returns (
+        bool isGestating,
+        bool isReady,
+        uint256 cooldownIndex,
+        uint256 nextActionAt,
+        uint256 siringWithId,
+        uint256 birthTime,
+        uint256 matronId,
+        uint256 sireId,
+        uint256 generation,
+        uint256 genes
+    );
+}
+
 contract ZombieFeeding is ZombieFactory {
     // In Solidity, there are two places you can store variables — in storage and in memory.
 
