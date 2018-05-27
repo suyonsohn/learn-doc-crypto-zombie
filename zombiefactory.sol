@@ -51,7 +51,7 @@ contract ZombieFactory {
     mapping (address => uint) ownerZombieCount;
     
     // It's convention (but not required) to start function parameter variable names with an underscore (_) in order to differentiate them from global variables.
-    function _createZombie(string _name, uint _dna) private {
+    function _createZombie(string _name, uint _dna) internal {
         // array.push() returns a uint of the new length of the array - and since the first item in an array has index 0, array.push() - 1 will be the index of the zombie we just added. 
         uint id = zombies.push(Zombie(_name, _dna)) - 1;
 
@@ -78,6 +78,30 @@ contract ZombieFactory {
         ownerZombieCount[msg.sender]++;
         // fire event
         NewZombie(id, _name, _dna);
+
+        // In addition to public and private, Solidity has two more types of visibility for functions: internal and external.
+
+        // internal is the same as private, except that it's also accessible to contracts that inherit from this contract. (Hey, that sounds like what we want here!).
+
+        // external is similar to public, except that these functions can ONLY be called outside the contract — they can't be called by other functions inside that contract. We'll talk about why you might want to use external vs public later.
+
+        // contract Sandwich {
+            // uint private sandwichesEaten = 0;
+
+            // function eat() internal {
+                // sandwichesEaten++;
+            // }
+        // }
+
+        // contract BLT is Sandwich {
+            // uint private baconSandwichesEaten = 0;
+
+            // function eatWithBacon() public returns (string) {
+                // baconSandwichesEaten++;
+                // We can call this here because it's internal
+                // eat();
+            // }
+        // }        
     }
 
     // string greeting = "What's up dog";
