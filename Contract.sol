@@ -122,3 +122,21 @@ contract ZombieFactory {
         _createZombie(_name, randDna);
     }
 }
+
+// BabyDoge inherits from Doge. That means if you compile and deploy BabyDoge, it will have access to both catchphrase() and anotherCatchphrase() (and any other public functions we may define on Doge).
+
+// contract Doge {
+//   function catchphrase() public returns (string) {
+    // return "So Wow CryptoDoge";
+//   }
+// }
+// 
+// contract BabyDoge is Doge {
+//   function anotherCatchphrase() public returns (string) {
+    // return "Such Moon BabyDoge";
+//   }
+// }
+
+contract ZombieFeeding is ZombieFactory {
+
+}
