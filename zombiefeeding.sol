@@ -134,6 +134,25 @@ contract ZombieFeeding is ZombieFactory {
         // ...if you want to copy the changes back into blockchain storage.
     // }
     // }
+
+
+    // Passing structs as arguments
+    // You can pass a storage pointer to a struct as an argument to a private or internal function. This is useful, for example, for passing around our Zombie structs between functions.
+
+    // The syntax looks like this:
+
+    // function _doStuff(Zombie storage _zombie) internal {
+      // do stuff with _zombie
+    // }
+    // This way we can pass a reference to our zombie into a function instead of passing in a zombie ID and looking it up.
+    function _triggerCooldown(Zombie storage _zombie) internal {
+        _zombie.readyTime = uint32(now + cooldownTime);
+    }
+
+    function _isReady(Zombie storage _zombie) internal view returns (bool) {
+        return (_zombie.readyTime <= now);
+    }
+    
     function feedAndMultiply(uint _zombieId, uint _targetDna, string _species) public {
         require(msg.sender == zombieToOwner[_zombieId]);
         Zombie storage myZombie = zombies[_zombieId];
