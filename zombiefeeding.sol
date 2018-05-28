@@ -66,7 +66,31 @@ contract ZombieFeeding is ZombieFactory {
     // Initialize kittyContract here using `ckAddress` from above
     KittyInterface kittyContract;    
 
-    function setKittyContractAddress(address _address) external {
+    /**
+    * @dev Throws if called by any account other than the owner.
+    */
+    // modifier onlyOwner() {
+        // require(msg.sender == owner);
+        // _;
+    // }
+    
+    // We would use this modifier as follows:
+
+    // contract MyContract is Ownable {
+        // event LaughManiacally(string laughter);
+
+        // Note the usage of `onlyOwner` below:
+        // function likeABoss() external onlyOwner {
+            // LaughManiacally("Muahahahaha");
+        // }
+    // }
+    // Notice the onlyOwner modifier on the likeABoss function. When you call likeABoss, the code inside onlyOwner executes first. Then when it hits the _; statement in onlyOwner, it goes back and executes the code inside likeABoss.
+
+    // So while there are other ways you can use modifiers, one of the most common use-cases is to add quick require check before a function executes.
+
+    // In the case of onlyOwner, adding this modifier to a function makes it so only the owner of the contract (you, if you deployed it) can call that function.
+
+    function setKittyContractAddress(address _address) external onlyOwner {
         kittyContract = KittyInterface(_address);
     }    
 
