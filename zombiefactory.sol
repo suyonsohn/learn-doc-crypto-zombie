@@ -1,7 +1,9 @@
 // version of Solidity
 pragma solidity ^0.4.23;
 
-contract ZombieFactory {
+import "./ownable.sol";
+
+contract ZombieFactory is Ownable {
     // Events are a way for your contract to communicate that something happened on the blockchain to your app front-end, which can be 'listening' for certain events and take action when they happen.
     event NewZombie(uint zombieId, string name, uint dna);
     // Unsigned Integer
