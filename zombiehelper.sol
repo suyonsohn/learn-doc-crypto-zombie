@@ -4,6 +4,18 @@ import "./zombiefeeding.sol";
 
 contract ZombieHelper is ZombieFeeding {
 
+    // private - only callable from other functions inside the contract
+    // internal - like private but can also be called by contracts that inherit from
+    // external - only be called outside the contract
+    // public - called anywhere
+
+    // view - by running the function, no data will be saved/changed
+    // pure - it also doesn't read any data from the blockchain
+    // Both of these don't cost any gas to call if they're called externally from outside the contract (but they do cost gas if called internally by another function).
+
+    // Define levelUpFee
+    uint levelUpFee = 0.001 ether;
+
     // A mapping to store a user's age:
     // mapping (uint => uint) public age;
 
@@ -22,6 +34,20 @@ contract ZombieHelper is ZombieFeeding {
     modifier aboveLevel(uint _level, uint _zombieId) {
         require(zombies[_zombieId].level >= _level);
         _;
+    }    
+
+    // payable functions are part of what makes Solidity and Ethereum so cool — they are a special type of function that can receive Ether.
+    // Let that sink in for a minute. When you call an API function on a normal web server, you can't send US dollars along with your function call — nor can you send Bitcoin.
+    // But in Ethereum, because both the money (Ether), the data (transaction payload), and the contract code itself all live on Ethereum, it's possible for you to call a function and pay money to the contract at the same time.
+    // This allows for some really interesting logic, like requiring a certain payment to the contract in order to execute a function.
+
+    // What happens here is that someone would call the function from web3.js (from the DApp's JavaScript front-end) as follows:
+    // ZombieHelper.levelUp({from: web3.eth.defaultAccount, value: web3.utils.toWei(0.001)})
+    // Notice the value field, where the javascript function call specifies how much ether to send (0.001). If you think of the transaction like an envelope, and the parameters you send to the function call are the contents of the letter you put inside, then adding a value is like putting cash inside the envelope — the letter and the money get delivered together to the recipient.    
+    function levelUp(uint _zombieId) external payable {
+        // Check to make sure 0.001 ether was sent to the function call
+        require(msg.value == levelUpFee);
+        zombies[_zombieId].level++;
     }    
 
     function changeName(uint _zombieId, string _newName) external aboveLevel(2, _zombieId) {
