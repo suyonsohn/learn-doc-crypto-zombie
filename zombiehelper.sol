@@ -36,6 +36,22 @@ contract ZombieHelper is ZombieFeeding {
         _;
     }    
 
+    // After you send Ether to a contract, it gets stored in the contract's Ethereum account, and it will be trapped there — unless you add a function to withdraw the Ether from the contract.
+    // You can transfer Ether to an address using the transfer function, and this.balance will return the total balance stored on the contract.
+    // You can use transfer to send funds to any Ethereum address. For example, you could have a function that transfers Ether back to the msg.sender if they overpaid for an item:
+
+    // uint itemFee = 0.001 ether;
+    // msg.sender.transfer(msg.value - itemFee);
+    
+    // Or in a contract with a buyer and a seller, you could save the seller's address in storage, then when someone purchases his item, transfer him the fee paid by the buyer: seller.transfer(msg.value).    
+    function withdraw() external onlyOwner {
+        owner.transfer(this.balance);
+    }   
+
+    function setLevelUpFee(uint _fee) external onlyOwner {
+        levelUpFee = _fee;
+    }     
+
     // payable functions are part of what makes Solidity and Ethereum so cool — they are a special type of function that can receive Ether.
     // Let that sink in for a minute. When you call an API function on a normal web server, you can't send US dollars along with your function call — nor can you send Bitcoin.
     // But in Ethereum, because both the money (Ether), the data (transaction payload), and the contract code itself all live on Ethereum, it's possible for you to call a function and pay money to the contract at the same time.
