@@ -37,8 +37,7 @@ contract KittyInterface {
         uint256 matronId,
         uint256 sireId,
         uint256 generation,
-        uint256 genes
-    );
+        uint256 genes);
 }
 
 contract ZombieFeeding is ZombieFactory {
