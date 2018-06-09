@@ -2,6 +2,13 @@ pragma solidity ^0.4.23;
 
 import "./zombieattack.sol";
 import "./erc721.sol";
+
+// natspec
+//  @title A contract that manages transfering zombie ownership
+//  @author Su Yon Sohn
+//  @notice For now, this contract just adds a multip
+//  @dev Compliant with OpenZeppelin's implementation of the ERC721 spec draft
+
 // A token on Ethereum is basically just a smart contract that follows some common rules — namely it implements a standard set of functions that all other token contracts share, such as transfer(address _to, uint256 _value) and balanceOf(address _owner).
 // Internally the smart contract usually has a mapping, mapping(address => uint256) balances, that keeps track of how much balance each address has.
 // So basically a token is just a contract that keeps track of who owns how much of that token, and some functions so those users can transfer their tokens to other addresses.
@@ -23,8 +30,9 @@ contract ZombieOwnership is ZombieAttack, ERC721 {
     // To quickly look up who is approved to take that token.
     mapping (uint => address) zombieApprovals;
 
+    // @param _owner address.
+    // @return the number of zombies `_owner` has
     function balanceOf(address _owner) public view returns (uint256 _balance) {
-        // Return the number of zombies `_owner` has.
         return ownerZombieCount[_owner];    
     }
 
