@@ -1,7 +1,7 @@
 pragma solidity ^0.4.23;
 
 import "./zombieattack.sol";
-
+import "./erc721.sol";
 // A token on Ethereum is basically just a smart contract that follows some common rules — namely it implements a standard set of functions that all other token contracts share, such as transfer(address _to, uint256 _value) and balanceOf(address _owner).
 // Internally the smart contract usually has a mapping, mapping(address => uint256) balances, that keeps track of how much balance each address has.
 // So basically a token is just a contract that keeps track of who owns how much of that token, and some functions so those users can transfer their tokens to other addresses.
@@ -19,7 +19,6 @@ import "./zombieattack.sol";
 // There's another token standard that's a much better fit for crypto-collectibles like CryptoZombies — and they're called ERC721 tokens.
 // ERC721 tokens are not interchangeable since each one is assumed to be unique, and are not divisible. You can only trade them in whole units, and each one has a unique ID. So these are a perfect fit for making our zombies tradeable.
 // Note that using a standard like ERC721 has the benefit that we don't have to implement the auction or escrow logic within our contract that determines how players can trade / sell our zombies. If we conform to the spec, someone else could build an exchange platform for crypto-tradable ERC721 assets, and our ERC721 zombies would be usable on that platform. So there are clear benefits to using a token standard instead of rolling your own trading logic.
-
-contract ZombieOwnership is ZombieAttack {
+contract ZombieOwnership is ZombieAttack, ERC721 {
 
 }
