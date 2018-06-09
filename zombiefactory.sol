@@ -64,6 +64,8 @@ contract ZombieFactory is Ownable {
 
         uint32 level;
         uint32 readyTime;
+        uint16 winCount;
+        uint16 lossCount;        
     }
 
     // Array with a fixed length of 2 elements:
@@ -104,7 +106,7 @@ contract ZombieFactory is Ownable {
     // It's convention (but not required) to start function parameter variable names with an underscore (_) in order to differentiate them from global variables.
     function _createZombie(string _name, uint _dna) internal {
         // array.push() returns a uint of the new length of the array - and since the first item in an array has index 0, array.push() - 1 will be the index of the zombie we just added. 
-        uint id = zombies.push(Zombie(_name, _dna, 1, uint32(now + cooldownTime))) - 1;
+        uint id = zombies.push(Zombie(_name, _dna, 1, uint32(now + cooldownTime), 0, 0)) - 1;
 
         // In Solidity, there are certain global variables that are available to all functions. One of these is msg.sender, which refers to the address of the person (or smart contract) who called the current function.
 
