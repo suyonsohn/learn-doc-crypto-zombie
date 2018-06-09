@@ -16,6 +16,8 @@ contract ZombieFactory is Ownable {
     // In this case, we've caused it to overflow — so number is counterintuitively now equal to 0 even though we increased it. (If you add 1 to binary 11111111, it resets back to 00000000, like a clock going from 23:59 to 00:00).
     // An underflow is similar, where if you subtract 1 from a uint8 that equals 0, it will now equal 255 (because uints are unsigned, and cannot be negative).
     using SafeMath for uint256;
+    using SafeMath32 for uint32;
+    using SafeMath16 for uint16;
 
     // Events are a way for your contract to communicate that something happened on the blockchain to your app front-end, which can be 'listening' for certain events and take action when they happen.
     event NewZombie(uint zombieId, string name, uint dna);
@@ -141,7 +143,7 @@ contract ZombieFactory is Ownable {
         //   return favoriteNumber[msg.sender];
         // }
         zombieToOwner[id] = msg.sender;
-        ownerZombieCount[msg.sender]++;
+        ownerZombieCount[msg.sender] = ownerZombieCount[msg.sender].add(1);
         // fire event
         NewZombie(id, _name, _dna);
 
