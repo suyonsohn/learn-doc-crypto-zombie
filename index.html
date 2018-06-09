@@ -11,6 +11,7 @@
         <script language="javascript" type="text/javascript" src="cryptozombies_abi.js"></script>
     </head>
     <body>
+        <div id="zombies"></div>
     <!-- 
         Remember, the Ethereum network is made up of nodes, which each contain a copy of the blockchain. When you want to call a function on a smart contract, you need to query one of these nodes and tell it: 
 
@@ -57,6 +58,28 @@
                     }
                 }, 100)
             }
+
+            function displayZombies(ids) {
+              $("#zombies").empty();
+              for (id of ids) {
+                // Look up zombie details from our contract. Returns a `zombie` object
+                getZombieDetails(id)
+                .then(function (zombie) {
+                    // Using ES6's "template literals" to inject variables into the HTML.
+                    // Append each one to our #zombies div
+                    $("#zombies").append(`<div class="zombie">
+                        <ul>
+                            <li>Name: ${zombie.name}</li>
+                            <li>DNA: ${zombie.dna}</li>
+                            <li>Level: ${zombie.level}</li>
+                            <li>Wins: ${zombie.winCount}</li>
+                            <li>Losses: ${zombie.lossCount}</li>
+                            <li>Ready Time: ${zombie.readyTime}</li>
+                        </ul>
+                    </div>`);
+                });
+              }  
+            } 
 
             // Web3.js has two methods we will use to call functions on our contract: call and send.
 
