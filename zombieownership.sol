@@ -20,6 +20,9 @@ import "./erc721.sol";
 // ERC721 tokens are not interchangeable since each one is assumed to be unique, and are not divisible. You can only trade them in whole units, and each one has a unique ID. So these are a perfect fit for making our zombies tradeable.
 // Note that using a standard like ERC721 has the benefit that we don't have to implement the auction or escrow logic within our contract that determines how players can trade / sell our zombies. If we conform to the spec, someone else could build an exchange platform for crypto-tradable ERC721 assets, and our ERC721 zombies would be usable on that platform. So there are clear benefits to using a token standard instead of rolling your own trading logic.
 contract ZombieOwnership is ZombieAttack, ERC721 {
+    // To quickly look up who is approved to take that token.
+    mapping (uint => address) zombieApprovals;
+
     function balanceOf(address _owner) public view returns (uint256 _balance) {
         // Return the number of zombies `_owner` has.
         return ownerZombieCount[_owner];    
@@ -41,6 +44,13 @@ contract ZombieOwnership is ZombieAttack, ERC721 {
         _transfer(msg.sender, _to, _tokenId);
     }
 
-    function approve(address _to, uint256 _tokenId) public;
+    // Remember, with approve / takeOwnership, the transfer happens in 2 steps:
+    // You, the owner, call approve and give it the address of the new owner, and the _tokenId you want him to take
+    // The new owner calls takeOwnership with the _tokenId, the contract checks to make sure he's already been approved, and then transfers him the token.
+    function approve(address _to, uint256 _tokenId) public onlyOwnerOf(_tokenId) {
+        zombieApprovals[_tokenId] = _to;
+        Approval(msg.sender, _to, _tokenId);
+    }    
+    
     function takeOwnership(uint256 _tokenId) public;
 }
