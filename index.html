@@ -8,6 +8,7 @@
         <!-- <script src="main.js"></script> -->
         <script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script language="javascript" type="text/javascript" src="web3.min.js"></script>
+        <script language="javascript" type="text/javascript" src="cryptozombies_abi.js"></script>
     </head>
     <body>
     <!-- 
@@ -28,6 +29,20 @@
         npm install web3 
     -->
         <script>
+            // Web3.js will need 2 things to talk to your contract: its address and its ABI.
+
+            // Contract Address
+            // After you finish writing your smart contract, you will compile it and deploy it to Ethereum. After you deploy your contract, it gets a fixed address on Ethereum where it will live forever. If you recall from Lesson 2, the address of the CryptoKitties contract on Ethereum mainnet is YOUR_CONTRACT_ADDRESS. You'll need to copy this address after deploying in order to talk to your smart contract.
+
+            // Contract ABI
+            // The other thing Web3.js will need to talk to your contract is its ABI. ABI stands for Application Binary Interface. Basically it's a representation of your contracts' methods in JSON format that tells Web3.js how to format function calls in a way your contract will understand. When you compile your contract to deploy to Ethereum(which we'll cover in Lesson 7), the Solidity compiler will give you the ABI, so you'll need to copy and save this in addition to the contract address.
+            var cryptoZombies;
+            function startApp() {
+                var cryptoZombiesAddress = "YOUR_CONTRACT_ADDRESS";
+                // Instantiate myContract
+                cryptoZombies = new web3js.eth.Contract(cryptozombiesABI, cryptoZombiesAddress);
+            }
+
             // let's get it initialized and talking to the blockchain. The first thing we need is a Web3 Provider.
             // Remember, Ethereum is made up of nodes that all share a copy of the same data. Setting a Web3 Provider in Web3.js tells our code which node we should be talking to handle our reads and writes. It's kind of like setting the URL of the remote web server for your API calls in a traditional web app.
 
