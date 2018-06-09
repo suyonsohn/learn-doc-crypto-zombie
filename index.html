@@ -36,11 +36,26 @@
 
             // Contract ABI
             // The other thing Web3.js will need to talk to your contract is its ABI. ABI stands for Application Binary Interface. Basically it's a representation of your contracts' methods in JSON format that tells Web3.js how to format function calls in a way your contract will understand. When you compile your contract to deploy to Ethereum(which we'll cover in Lesson 7), the Solidity compiler will give you the ABI, so you'll need to copy and save this in addition to the contract address.
-            var cryptoZombies;
+            var cryptoZombies
+            var userAccount
+
             function startApp() {
-                var cryptoZombiesAddress = "YOUR_CONTRACT_ADDRESS";
+                var cryptoZombiesAddress = "YOUR_CONTRACT_ADDRESS"
                 // Instantiate myContract
-                cryptoZombies = new web3js.eth.Contract(cryptozombiesABI, cryptoZombiesAddress);
+                cryptoZombies = new web3js.eth.Contract(cryptozombiesABI, cryptoZombiesAddress)
+
+                // We can see which account is currently active on the injected web3 variable via:
+                // var userAccount = web3.eth.accounts[0]
+                // Check every 100 milliseconds to see if userAccount is still equal web3.eth.accounts[0](i.e.does the user still have that account active). If not, it reassigns userAccount to the currently active account, and calls a function to update the display.
+                var accountInterval = setInterval(function () {
+                    // Check if account has changed
+                    if (web3.eth.accounts[0] !== userAccount) {
+                        userAccount = web3.eth.accounts[0]
+                        // Call some function to update the UI with the new account
+                        getZombiesByOwner(userAccount)
+                        .then(displayZombies)
+                    }
+                }, 100)
             }
 
             // Web3.js has two methods we will use to call functions on our contract: call and send.
@@ -87,7 +102,7 @@
                 // Checking if Web3 has been injected by the browser (Mist/MetaMask)
                 if (typeof web3 !== 'undefined') {
                     // Use Mist/MetaMask's provider
-                    web3js = new Web3(web3.currentProvider);
+                    web3js = new Web3(web3.currentProvider)
                 } else {
                     // Handle the case where the user doesn't have web3. Probably 
                     // show them a message telling them to install Metamask in 
