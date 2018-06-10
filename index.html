@@ -93,7 +93,6 @@
             // receipt will fire when the transaction is included into a block on Ethereum, which means our zombie has been created and saved on our contract
             
             // error will fire if there's an issue the prevented the transaction from being included in a block, such as the user not sending enough gas. We'll want to inform the user in our UI that the transaction didn't go through so they can try again.
-            
             function createRandomZombie(name) {
                 // This is going to take a while, so update the UI to let the user know
                 // the transaction has been sent
@@ -123,6 +122,20 @@
                 .on("error", function (error) {
                     $("#txStatus").text(error);
                 });
+            }
+
+            function levelUp(zombieId) {
+                $("#txStatus").text("Leveling up your zombie...");
+                return CryptoZombies.methods.levelUp(zombieId)
+                // A wei is the smallest sub - unit of Ether — there are 10 ^ 18 wei in one ether. That's a lot of zeroes to count — but luckily Web3.js has a conversion utility that does this for us.
+                // This will convert 1 ETH to Wei
+                .send({ from: userAccount, value: web3js.utils.toWei("0.001") })
+                .on("receipt", function (receipt) {
+                    $("#txStatus").text("Power overwhelming! Zombie successfully leveled up");
+                })
+                .on("error", function (error) {
+                    $("#txStatus").text(error);
+                })
             }
 
             // Web3.js has two methods we will use to call functions on our contract: call and send.
